@@ -1,0 +1,11 @@
+name: signac_julia_excel_analysis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - openpyxl
+  - signac>=2.2.0
+  - signac-flow>=0.29.0
+  - signac-dashboard>=0.6.1

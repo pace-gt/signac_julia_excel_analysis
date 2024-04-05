@@ -50,12 +50,12 @@ If you want to install and use `Julia`locally or load it on the HPC (example: `m
 cd signac_julia_excel_analysis
 ```
 
-Install with Julia included (see above for details on which `conda env create` to use):
+Install with Julia included (see above for details on which `conda env create` command to use):
 ```bash
 conda env create -f environment.yml
 ```
          
-Install without Julia included (see above for details on which `conda env create` to use):
+Install without Julia included (see above for details on which `conda env create` command to use):
 ```bash
 conda env create -f environment_without_julia.yml
 ```
