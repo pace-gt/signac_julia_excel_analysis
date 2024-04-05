@@ -42,14 +42,22 @@ Please cite this GitHub repository.
 
 ### Installation
 
-These signac workflows "this project" can be built using conda:
+These signac workflows for this project can be built using conda with the `environment.yml` file, which includes `Julia` in the `Python` conda package with the `environment.yml` file. This is the standard build, which requires no other dependancies to run the entire workflow.  
+
+If you want to install and use `Julia`locally or load it on the HPC (example: `module load julia`), this project can be built using conda with the `environment_without_julia.yml` file, which is built without `Julia` in the `Python` conda package. If this project is built this way and run without installing `Julia` locally or loading it on the HPC, this workflow will fail when trying to run `Julia`.  
 
 ```bash
 cd signac_julia_excel_analysis
 ```
 
+Install with Julia included (see above for details on which `conda env create` to use):
 ```bash
 conda env create -f environment.yml
+```
+         
+Install without Julia included (see above for details on which `conda env create` to use):
+```bash
+conda env create -f environment_without_julia.yml
 ```
 
 ```bash
