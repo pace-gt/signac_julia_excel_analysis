@@ -49,20 +49,20 @@ output_avg_std_of_replicates_txt_filename = "output_avg_std_of_replicates_txt_fi
 # that many cause more resources to be used than expected,
 # which may result in higher HPC or cloud computing costs!
 # *******************************************************
-part_1_np_or_nprocesses = 2
+part_1_np_or_nprocesses = 1
 part_1_cpus_per_task = 1
-part_1_mem_per_cpu_gb = 4
+part_1_mem_per_cpu_gb = 3
 part_1_gpus_per_task = 0
 part_1_walltime_hr = 0.25
 
 part_2_np_or_nprocesses = 1
-part_2_cpus_per_task = 2
-part_2_mem_per_cpu_gb = 3
+part_2_cpus_per_task = 1
+part_2_mem_per_cpu_gb = 5
 part_2_gpus_per_task = 0
 part_2_walltime_hr = 0.5
 
 part_3_np_or_nprocesses = 1
-part_3_cpus_per_task = 3
+part_3_cpus_per_task = 1
 part_3_mem_per_cpu_gb = 4
 part_3_gpus_per_task = 0
 part_3_walltime_hr = 0.75
