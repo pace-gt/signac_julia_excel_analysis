@@ -42,26 +42,41 @@ output_avg_std_of_replicates_txt_filename = "output_avg_std_of_replicates_txt_fi
 # Set the walltime, memory, and number of CPUs and GPUs needed
 # for each individual job, based on the part/section.
 # *******************************************************
-# *******************  WARNING  ************************* 
-# The "part_X_np_or_ntasks_int" should be 1 for most cases.
-# Setting to a higher value will multiply
+# *******************   WARNING   ***********************
+# It is recommended to check all HPC submisstions with the
+# '--pretend' command so you do not make an errors requesting 
 # the CPUs, GPUs, and other parameters by its value 
 # that many cause more resources to be used than expected,
-# which may result in higher HPC or cloud computing costs!
+# which may result in higher HPC or cloud computing costs! 
+# *******************   WARNING   ***********************
 # *******************************************************
-part_1_np_or_nprocesses = 1
+
+# *******************************************************
+# *******************   Notes   ************************* 
+# The following input parameters are all entered as if 
+# you were doing a single job when submitting a single 
+# schedular script, or running it as single job locally:
+# - part_1_ntasks_int = integer
+# - part_1_cpus_per_task_int = integer
+# - part_1_gpus_per_task_int = integer
+# - part_1_mem_per_cpu_gb  = integer or float
+# - part_1_walltime_hr = integer or float
+# *******************   Notes   ************************* 
+# *******************************************************
+# *******************************************************
+part_1_ntasks = 1
 part_1_cpus_per_task = 1
 part_1_mem_per_cpu_gb = 3
 part_1_gpus_per_task = 0
 part_1_walltime_hr = 0.25
 
-part_2_np_or_nprocesses = 1
+part_2_ntasks = 1
 part_2_cpus_per_task = 1
 part_2_mem_per_cpu_gb = 5
 part_2_gpus_per_task = 0
 part_2_walltime_hr = 0.5
 
-part_3_np_or_nprocesses = 1
+part_3_ntasks = 1
 part_3_cpus_per_task = 1
 part_3_mem_per_cpu_gb = 4
 part_3_gpus_per_task = 0
@@ -99,7 +114,7 @@ def part_1_initial_parameters_completed(job):
 @Project.post(part_1_initial_parameters_completed)
 @Project.operation(directives=
     {
-        "np": part_1_np_or_nprocesses,
+        "np": part_1_ntasks,
         "cpus-per-task": part_1_cpus_per_task,
         "gpus-per-task": part_1_gpus_per_task,
         "mem-per-cpu": part_1_mem_per_cpu_gb,
@@ -204,7 +219,7 @@ def part_2b_dot_product_calcs_completed_properly(job):
 @Project.post(part_2b_dot_product_calcs_completed_properly)
 @Project.operation(directives=
     {
-        "np": part_2_np_or_nprocesses,
+        "np": part_2_ntasks,
         "cpus-per-task": part_2_cpus_per_task,
         "gpus-per-task": part_2_gpus_per_task,
         "mem-per-cpu": part_2_mem_per_cpu_gb,
@@ -277,7 +292,7 @@ def part_3_analysis_replica_averages_completed(*jobs):
 @Project.post(part_3_analysis_replica_averages_completed)
 @Project.operation(directives=
      {
-        "np": part_3_np_or_nprocesses,
+        "np": part_3_ntasks,
         "cpus-per-task": part_3_cpus_per_task,
         "gpus-per-task": part_3_gpus_per_task,
         "mem-per-cpu": part_3_mem_per_cpu_gb,
