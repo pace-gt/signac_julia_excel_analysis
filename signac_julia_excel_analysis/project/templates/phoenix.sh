@@ -40,7 +40,7 @@ module load cuda/12.1.1-6oacj6
 {%- endif %}
 
 # activate the required conda environment
-conda activate signac_excel_analysis
+conda activate signac_julia_excel_analysis
 
 {% endblock header %}
 
