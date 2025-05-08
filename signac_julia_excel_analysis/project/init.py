@@ -1,14 +1,28 @@
 """Initialize signac statepoints."""
 
-import os
-import numpy as np
-import signac
+from pathlib import Path
 
-# *******************************************
-# ENTER THE MAIN USER STATEPOINTS (START)
-# *******************************************
+import os
+import signac
+import shutil
+import subprocess
+
+# ┌───────────────────────────────────────────────┐
+# │ SET THE PROJECTS DEFAULT DIRECTORY AND PATHS  │
+# └───────────────────────────────────────────────┘
+
 # Initialize the signac project
 signac.init_project()
+
+# Setup the directories in the current directory
+print("os.getcwd() = " +str(os.getcwd()))
+pr_root = os.getcwd()
+pr = signac.get_project(pr_root)
+
+
+# ┌───────────────────────────────────┐
+# │ Define plmnist statepoints to run │
+# └───────────────────────────────────┘
 
 # Enter the variable 'excel_filename_wo_ext_list': list of strings
 # Excel file's relative directory 'src/data'
@@ -49,18 +63,12 @@ print(f'excel_filename_wo_ext_list = {excel_filename_wo_ext_list}')
 # This adds scalar noise to the data for each replicate with 
 # random values between 0.1 to 1.
 # replicate_number = [0, 1, 2, 3, 4]
-replicate_number = [0, 1]
+replicate_number = [0, 1, 2]
 
 
-# *******************************************
-# ENTER THE MAIN USER STATEPOINTS (END)
-# *******************************************
-
-# Setup the directories in the current directory
-print("os.getcwd() = " +str(os.getcwd()))
-pr_root = os.getcwd()
-pr = signac.get_project(pr_root)
-
+# ┌────────────────────────────────────────────────────────────────────┐
+# │ Create and initiate signac_julia_excel_analysis statepoints        │
+# └────────────────────────────────────────────────────────────────────┘
 
 # Set all the statepoints, which will be used to create separate 
 #folders for each combination of state points.
@@ -69,6 +77,7 @@ all_statepoints = list()
 for excel_filename_wo_ext_i in excel_filename_wo_ext_list:
     for replicate_i in replicate_number:
         statepoint = {
+            "statepoint_type": "julia_excel_analysis",
             "excel_filename_wo_ext": excel_filename_wo_ext_i,
             "replicate_number_int": replicate_i,
         }
@@ -80,3 +89,48 @@ for sp in all_statepoints:
     pr.open_job(
         statepoint=sp,
     ).init()
+
+
+# ┌──────────────────────────────────────────────────────────────┐
+# │ Delete prior analaysis between multiple job to avoid errors  │
+# └──────────────────────────────────────────────────────────────┘
+
+# Delete any analysis files that require analysis outside a single 
+# workspace file and reset row, as row does not dynamically recheck 
+# for completion status after the task is completed.  
+# If any previous replicate averages and std_devs exist delete them, 
+ # because they will need recalculated as more state points were added.
+
+main_analysis_dir_path_and_name = "analysis"
+try:
+    if os.path.isfile(f'{main_analysis_dir_path_and_name}/output_avg_std_of_replicates_txt_filename.txt'):
+        os.remove(f'{main_analysis_dir_path_and_name}/output_avg_std_of_replicates_txt_filename.txt')
+except:
+    print(
+        f"No directory named "
+        f"'{main_analysis_dir_path_and_name}' exists."
+        )
+
+# The 'avg_std_dev_calculated.txt' file are auto-deleted when 
+# the 'init.py' file is run.  So if there are errors with this, 
+# you can run 'python init.py' and it will reset it, so you can rerun it. 
+# This also resets and recalculated the completion status.
+try:
+    # Delete the 'avg_std_dev_calculated.txt' file
+    exec_delete_avg_std_dev_file = subprocess.Popen(
+        "rm workspace/*/avg_std_dev_calculated.txt", 
+        shell=True, 
+        stderr=subprocess.STDOUT
+    )
+    os.wait4(exec_delete_avg_std_dev_file.pid, os.WSTOPPED)
+
+    # Clean and reset row's completion status
+    exec_reset_row_status = subprocess.Popen(
+        "row clean --completed && row scan", 
+        shell=True, 
+        stderr=subprocess.STDOUT
+    )
+    os.wait4(exec_reset_row_status.pid, os.WSTOPPED)
+
+except:
+    print(f"ERROR: Unable to delete the 'avg_std_dev_calculated.txt' file or clean and scan workspace progress.") 

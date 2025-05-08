@@ -8,6 +8,7 @@ test-output.xml
 # github
 **/.DS_Store
 .signac
+.row
 
 # Packages
 *.egg
