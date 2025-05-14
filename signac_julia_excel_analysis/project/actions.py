@@ -228,15 +228,23 @@ def part_3_calc_avg_std_dev_command(*jobs):
 
     # Check that the replicate dot_product averages files are written
     for job in jobs:
-    
-        if job.isfile(f'../../analysis/{"output_avg_std_of_replicates_txt_filename.txt"}'):
-            # Print completion file if written correctly
-                exec_make_completion_file = subprocess.Popen(
-                    f"touch {job.fn('avg_std_of_replicates_completed.txt')}",
-                    shell=True, 
-                    stderr=subprocess.STDOUT
-                )
-                os.wait4(exec_make_completion_file.pid, os.WSTOPPED)
+        output_file = f'../../analysis/{"output_avg_std_of_replicates_txt_filename.txt"}'
+        if os.path.isfile(job.fn(output_file)):
+            # get the individual values
+            with open(job.fn(output_file), "r") as fp:
+                output_line = fp.readlines()
+                for i, line in enumerate(output_line):
+                    split_line = line.split() 
+                    os.system("echo 'hello' > test_2.txt")
+                    if len(split_line) == 3 and str(split_line[0]) == str(job.statepoint.excel_filename_wo_ext):
+                    
+                        # Print completion file if written correctly
+                        exec_make_completion_file = subprocess.Popen(
+                            f"touch {job.fn('avg_std_of_replicates_completed.txt')}",
+                            shell=True, 
+                            stderr=subprocess.STDOUT
+                        )
+                        os.wait4(exec_make_completion_file.pid, os.WSTOPPED)
 
 
 # ┌───────────────────────────┐
