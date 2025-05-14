@@ -104,45 +104,6 @@ Note: As needed, the cluster partitions in the `clusters.toml` can be fake ones.
 - This can also be done if >1 or more partitions is needed.
 
 ### Testing the setup for running **on an HPC**.
-
-**Build the test workspace:**     
-
-```bash
-python init.py
-```
-
-**Run the following command as the test:**   
-
-```bash
-row submit --dry-run
-```
-    
-**You should see an output that looks something like this (<u>export ACTION_CLUSTER=`<YOUR_HPC_NAME>`</u>) in the output if it is working:**
-
-```bash
-...
-
-directories=(
-be31aae200171ac52a9e48260b7ba5b1
-)
-
-export ACTION_WORKSPACE_PATH=workspace
-export ACTION_CLUSTER=<YOUR_HPC_NAME>
-
-...
-```
-
-**Clean up row and delete the test workspace:**    
-
-```bash
-row clean
-```
-
-```bash
-rm -r workspace
-```
-
-### Testing the setup for running **on an HPC**.
 -----------------------------------------------
 
 **Build the test workspace:**     
