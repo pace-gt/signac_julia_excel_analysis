@@ -235,7 +235,6 @@ def part_3_calc_avg_std_dev_command(*jobs):
                 output_line = fp.readlines()
                 for i, line in enumerate(output_line):
                     split_line = line.split() 
-                    os.system("echo 'hello' > test_2.txt")
                     if len(split_line) == 3 and str(split_line[0]) == str(job.statepoint.excel_filename_wo_ext):
                     
                         # Print completion file if written correctly
